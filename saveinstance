@@ -2275,6 +2275,11 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 			end
 		end
 
+		if true then
+			print('STOPPING HERE')
+			return
+		end
+
 		-- TODO: Merge BaseWrap & Attachment & AdPortal fix (put all under MeshPart container)
 		-- TODO?:
 		-- DebuggerWatch DebuggerWatch must be a child of ScriptDebugger
