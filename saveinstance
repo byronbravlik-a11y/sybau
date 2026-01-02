@@ -3,8 +3,6 @@
 --!divine-intellect
 -- https://discord.gg/wx4ThpAsmw
 
-warn('RUNNING VERSION 1')
-
 local function string_find(s, pattern)
 	return string.find(s, pattern, nil, true)
 end
@@ -2275,11 +2273,6 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 			end
 		end
 
-		if true then
-			print('STOPPING HERE')
-			return
-		end
-
 		-- TODO: Merge BaseWrap & Attachment & AdPortal fix (put all under MeshPart container)
 		-- TODO?:
 		-- DebuggerWatch DebuggerWatch must be a child of ScriptDebugger
@@ -2345,45 +2338,6 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 		else
 			CustomOptions = {}
 		end
-	end
-
-	if not writefile and not OPTIONS.Callback then
-		-- appendfile could be used a fallback but what kind of exec has appendfile without writefile
-		local function coreCall(method, ...)
-			local StarterGui = service.StarterGui
-			method = StarterGui[method]
-			if not method then
-				return
-			end
-
-			for _ = 1, 10 do -- maxtries
-				local success, result = pcall(method, StarterGui, ...)
-				if success then
-					return result
-				end
-				task.wait(1)
-			end
-		end
-
-		local text = 'Function "writefile" is NOT available\nUse the Option "Callback" instead for now (check docs)'
-
-		coreCall("SetCore", "SendNotification", {
-			Title = "SAVEINSTANCE ERROR",
-			Text = text,
-			Duration = 15,
-			Icon = "rbxassetid://9072920609",
-		})
-		coreCall("SetCore", "SendNotification", {
-			Title = "SAVEINSTANCE ERROR",
-			Text = "Please ask your executor's developers to add writefile",
-			Duration = 15,
-			Icon = "rbxassetid://9072920609",
-		})
-
-		warn(text)
-
-		GLOBAL_ENV.USSI = nil
-		return
 	end
 
 	if OPTIONS.IgnoreDefaultPlayerScripts then
@@ -2644,6 +2598,8 @@ local function synsaveinstance(CustomOptions, CustomOptions2)
 			table.insert(ToSaveList, 1, ToSaveInstance)
 		end
 	end
+
+if true then print("IM STOPPING RIGTHT HERE NOW") return end
 
 	local IsolateLocalPlayer = OPTIONS.IsolateLocalPlayer
 	local IsolateLocalPlayerCharacter = OPTIONS.IsolateLocalPlayerCharacter
