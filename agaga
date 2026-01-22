@@ -102,3 +102,5 @@ CopyAnimID.MouseButton1Down:Connect(function()
     setclipboard(Output.Text)
     msg(CopyAnimID, "copied!", "copy animation id / link", 1.5)
 end)
+
+print('ran')
