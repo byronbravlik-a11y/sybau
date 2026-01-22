@@ -1,0 +1,104 @@
+-- ANIMATION STEALER
+
+-- Notification Setup
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "anim-grabber v3",
+    Text = "Made by BlastingStone (V3rm UID: 464205)",
+    Icon = "rbxassetid://7212792656",
+    Duration = 20,
+    Button1 = "ok",
+    Button2 = "idc stfu"
+})
+
+-- Console setup
+if not syn then
+    rconsoleclear = function() end
+    rconsoleprint = function(a) print(a) end
+    rconsolename = function() end
+end
+rconsoleclear()
+rconsolename('animation grabber v3 - logs')
+rconsoleprint('Hello! This is an animation grabber v3 console.\n')
+
+
+-- Instances:
+local Counter = 0
+local ScreenGui = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local GrabAnimID = Instance.new("TextButton")
+local Output = Instance.new("TextBox")
+local CopyAnimID = Instance.new("TextButton")
+
+--Properties:
+Main.Name = "Main"
+Main.Parent = ScreenGui
+Main.Active = true
+Main.Draggable = true
+Main.Position = UDim2.new(0.75, 1, 0.449999988, 0)
+Main.Size = UDim2.new(0, 200, 0, 260)
+Main.BackgroundColor3 = Color3.fromRGB(181, 181, 181)
+Main.BorderSizePixel = 2
+
+GrabAnimID.Name = "GrabAnimID"
+GrabAnimID.Parent = Main
+GrabAnimID.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+GrabAnimID.Position = UDim2.new(0.1, 0, 0.375, 0)
+GrabAnimID.Size = UDim2.new(0, 160, 0, 20)
+GrabAnimID.Font = Enum.Font.SourceSans
+GrabAnimID.Text = "grab animation"
+GrabAnimID.TextSize = 14
+
+Output.Name = "Output"
+Output.Parent = Main
+Output.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Output.Position = UDim2.new(0.1, 0, 0.196, 0)
+Output.Size = UDim2.new(0, 160, 0, 40)
+Output.ClearTextOnFocus = false
+Output.Font = Enum.Font.SourceSans
+Output.PlaceholderText = "animation id and link will appear here"
+Output.Text = ""
+Output.TextSize = 14
+
+CopyAnimID.Name = "CopyAnimID"
+CopyAnimID.Parent = Main
+CopyAnimID.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+CopyAnimID.Position = UDim2.new(0.1, 0, 0.476, 0)
+CopyAnimID.Size = UDim2.new(0, 160, 0, 20)
+CopyAnimID.Font = Enum.Font.SourceSans
+CopyAnimID.Text = "copy animation id / link"
+CopyAnimID.TextSize = 14
+
+ScreenGui.Parent = game:GetService("CoreGui")
+
+-- Scripts:
+local LocalPlayer = game:GetService("Players").LocalPlayer
+
+local function msg(label, text, default, duration)
+    label.Text = text
+    task.wait(duration or 0)
+    label.Text = default
+end
+
+GrabAnimID.MouseButton1Down:Connect(function()
+    local Character = workspace.NPCs['Bandit Boss']
+    if Character then
+        local Humanoid = Character:FindFirstChildOfClass('Humanoid')
+        if Humanoid then
+            for _, AnimTrack in ipairs(Humanoid:WaitForChild("Animator"):GetPlayingAnimationTracks()) do
+                Counter = Counter + 1
+                rconsoleprint('Animation #'..Counter..': https://roblox.com/library/'..string.match(AnimTrack.Animation.AnimationId, "%d+")..'\n')
+                Output.Text = "https://roblox.com/library/"..string.match(AnimTrack.Animation.AnimationId, "%d+")
+            end
+        else
+            msg(GrabAnimID, "no humanoid found!", "grab animation", 1)
+        end
+    else
+        msg(GrabAnimID, "no character found!", "grab animation", 1)
+    end
+    msg(GrabAnimID, "grabbed!", "grab animation", 1.5)
+end)
+
+CopyAnimID.MouseButton1Down:Connect(function()
+    setclipboard(Output.Text)
+    msg(CopyAnimID, "copied!", "copy animation id / link", 1.5)
+end)
